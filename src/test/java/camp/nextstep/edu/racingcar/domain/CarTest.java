@@ -1,9 +1,9 @@
 package camp.nextstep.edu.racingcar.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import camp.nextstep.edu.racingcar.domain.Car;
 import camp.nextstep.edu.racingcar.domain.result.DriveResult;
 import camp.nextstep.edu.racingcar.domain.strategy.DriveStrategy;
 import org.junit.jupiter.api.DisplayName;
@@ -25,8 +25,8 @@ public class CarTest {
         DriveResult driveResult2 = car.drive();
 
         // then
-        assertThat(driveResult1.drivenDistance).isEqualTo(1);
-        assertThat(driveResult2.drivenDistance).isEqualTo(2);
+        assertThat(driveResult1.drivenDistance()).isEqualTo(1);
+        assertThat(driveResult2.drivenDistance()).isEqualTo(2);
     }
 
     @Test
@@ -41,15 +41,16 @@ public class CarTest {
         DriveResult driveResult2 = car.drive();
 
         // then
-        assertThat(driveResult1.drivenDistance).isEqualTo(0);
-        assertThat(driveResult2.drivenDistance).isEqualTo(0);
+        assertThat(driveResult1.drivenDistance()).isEqualTo(0);
+        assertThat(driveResult2.drivenDistance()).isEqualTo(0);
     }
 
     @ParameterizedTest
     @ValueSource(strings = { "a", "aa", "aaa", "aaaa", "aaaaa" })
     @DisplayName("차의 이름이 1~5자라면 잘 만들어진다")
     void carName(String input) {
-        new Car(input, () -> true);
+        assertThatNoException()
+            .isThrownBy(() -> new Car(input, () -> true));
     }
 
     @ParameterizedTest
